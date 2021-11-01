@@ -1,53 +1,17 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { Button, Flex, Image, SimpleGrid, Text } from '@chakra-ui/react'
-import { gql, useQuery } from '@apollo/client'
+import { useQuery, useMutation } from 'react-apollo'
 
-interface ProductData {
-  title: string
-  image_url: string
-  price: number
-}
+import { ADD_ITEM_TO_CART, GET_PRODUCTS } from '../../../store/actions'
+import { SingleProductData } from '../../../models'
+import { ProductItem } from './components'
 
 interface ProductsData {
-  products: ProductData[]
+  products: SingleProductData[]
 }
 
 export const Content: React.FC = () => {
-  const GET_PRODUCTS = gql`query getProducts($currency: Currency!){
-    products {
-      title,
-      price(currency: $currency),
-      image_url
-    }
-  }`
-
   const { loading, data } = useQuery<ProductsData>(GET_PRODUCTS, { variables: { currency: "USD" } })
-
-  const renderProduct = ({ image_url, price, title }: ProductData, index: number) => {
-    return <Flex
-      key={index}
-      flexDir="column"
-      justifyContent="space-between"
-      alignItems="center"
-      py={10}
-    >
-      <Image src={image_url} w={["8rem", 40]} h={["8rem", 40]}  />
-      <Text textAlign="center" my="1rem" fontSize="larger">{title}</Text>
-      <Text mb="0.5rem" fontSize="larger">{price}</Text>
-      <Button
-        color="white"
-        bgColor="#4B5548"
-        width={"14rem"}
-        py="28px"
-        borderRadius={0}
-        _hover={{ bgColor: "#2B2E2B" }}
-      >
-        Add to Cart
-      </Button>
-    </Flex>
-  }
-
-  console.log(loading, data)
   
   return (
     <SimpleGrid
@@ -60,7 +24,9 @@ export const Content: React.FC = () => {
       {
         loading
           ? null
-        : data?.products.map((item: ProductData, index: number) => renderProduct(item, index))
+          : data?.products.map((item: SingleProductData) => <Fragment key={item.id}>
+            <ProductItem item={item} />
+          </Fragment>)
       }
     </SimpleGrid>
   )

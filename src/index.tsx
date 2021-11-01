@@ -1,15 +1,28 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { ChakraProvider } from '@chakra-ui/react'
-import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
+import ApolloClient, { InMemoryCache } from 'apollo-boost'
+import { ApolloProvider } from 'react-apollo'
 
 import './index.css'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
+import { resolvers } from './store/resolvers'
 
 const client = new ApolloClient({
   uri: 'https://pangaea-interviews.now.sh/api/graphql',
-  cache: new InMemoryCache()
+  cache: new InMemoryCache({}),
+  clientState: {
+    defaults: {
+      cart: {
+        items: [],
+        total: 0,
+        __typename: 'Cart'
+      },
+      currency: 'USD'
+    },
+    resolvers
+  }
 })
 
 ReactDOM.render(

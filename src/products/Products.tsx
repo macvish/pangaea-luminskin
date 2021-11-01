@@ -1,8 +1,7 @@
 import React from 'react'
 import { Box } from '@chakra-ui/react'
 
-import { Header, NavBar } from './components'
-import { Content } from './components/content/Content'
+import { Content, Header, NavBar } from './components'
 
 export const Products: React.FC = () => {
   return (
