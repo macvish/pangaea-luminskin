@@ -1,8 +1,40 @@
 import React from 'react'
-import { Box, Flex, Heading, Icon, Text } from '@chakra-ui/react'
+import { Flex, Heading, Icon, Text, useMediaQuery } from '@chakra-ui/react'
 import { GrCart } from 'react-icons/gr'
+import { AiOutlineMenu } from 'react-icons/ai'
 
 export const NavBar: React.FC = () => {
+  const [isAbove768] = useMediaQuery('(min-width: 768px)')
+
+  const displayMenu = () => {
+    if (isAbove768) {
+      return (
+        <Flex
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Heading
+            fontSize={23}
+            fontWeight="light"
+            letterSpacing={15}
+            mr={5}
+          >
+            LUMIN
+          </Heading>
+          <Flex
+            justifyContent="space-between"
+            w="28"
+          >
+            <Text>Shop</Text>
+            <Text>Learn</Text>
+          </Flex>
+        </Flex>
+      )
+    }
+
+    return <Icon as={AiOutlineMenu} w={5} h={5}/>
+  }
+
   return (
     <Flex
       justifyContent="space-between"
@@ -17,26 +49,7 @@ export const NavBar: React.FC = () => {
       boxShadow="base"
       bgColor="#F5F5F4"
     >
-      <Flex
-        justifyContent="space-between"
-        alignItems="center"
-      >
-        <Heading
-          fontSize={23}
-          fontWeight="light"
-          letterSpacing={15}
-          mr={5}
-        >
-          LUMIN
-        </Heading>
-        <Flex
-          justifyContent="space-between"
-          w="28"
-        >
-          <Text>Shop</Text>
-          <Text>Learn</Text>
-        </Flex>
-      </Flex>
+      {displayMenu()}
       <Flex
         justifyContent="space-between"
         w="24"
