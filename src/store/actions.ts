@@ -31,6 +31,10 @@ export const ADD_ITEM_TO_CART = gql`mutation ($id: String!, $products: Array!) {
   addToCart(id: $id, products: $products) @client
 }`
 
+export const REMOVE_ITEM_FROM_CART = gql`mutation ($id: String!) {
+  removeFromCart(id: $id) @client
+}`
+
 export const GET_CURRENCY = gql`query {
   SavedCurrency @client
 }`

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Flex, Heading, Icon, Text, useMediaQuery } from '@chakra-ui/react'
 import { GrCart } from 'react-icons/gr'
 import { AiOutlineMenu } from 'react-icons/ai'
@@ -14,6 +14,7 @@ interface NavBarCartData {
 }
 
 export const NavBar: React.FC = () => {
+  const [isVisible, setIsVisible] = useState<boolean>(false)
   const [isAbove768] = useMediaQuery('(min-width: 768px)')
   const { data } = useQuery<NavBarCartData>(GET_CART_ITEMS)
 
@@ -79,13 +80,17 @@ export const NavBar: React.FC = () => {
           alignItems="center"
         >
           <Text>Account</Text>
-          <div>
+          <div onClick={() => setIsVisible(true)}>
             <Icon as={GrCart} w={5} h={5} />
             <Text as="sup">{calculateItems()}</Text>
           </div>
         </Flex>
       </Flex>
-      <Cart />
+      {
+        isVisible
+          ? <Cart cartItems={data?.cart} onClose={() => setIsVisible(false)} />
+          : null
+      }
     </>
   )
 }

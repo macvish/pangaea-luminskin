@@ -1,16 +1,32 @@
 import React from 'react'
-import { Box, Flex, Icon, Select, Text } from '@chakra-ui/react'
+import {
+  Box,
+  Button,
+  Flex,
+  HStack,
+  Icon,
+  Image,
+  Input,
+  Select,
+  Stack,
+  Text,
+} from '@chakra-ui/react'
 import { MdKeyboardArrowRight } from 'react-icons/md'
 import { useQuery } from 'react-apollo'
-import { GET_CURRENCY, GET_CURRENCY_LIST } from '../../../../../store/actions'
+
+import { GET_CURRENCY, GET_CURRENCY_LIST, GET_PRODUCTS } from '../../../../../store/actions'
+import { CartData, ProductsData } from '../../../../../models'
+import { CartItem } from '../'
 
 interface CartProps {
-    visible?: boolean
+  onClose?: () => void
+  cartItems?: CartData
 }
 
-export const Cart: React.FC<CartProps> = ({ visible }) => {
+export const Cart: React.FC<CartProps> = ({ cartItems, onClose }) => {
   const { data: currencyList } = useQuery<{ currency: [] }>(GET_CURRENCY_LIST)
   const { data: currencyData } = useQuery<{ SavedCurrency: string }>(GET_CURRENCY)
+  const { data: productsData } = useQuery<ProductsData>(GET_PRODUCTS, { variables: { currency: currencyData?.SavedCurrency } })
 
   return (
     <Flex
@@ -20,7 +36,7 @@ export const Cart: React.FC<CartProps> = ({ visible }) => {
       w="100%"
       bgColor="rgba(205, 209, 206, 0.8)"
     >
-      <Box w="66%" h="100%"></Box>
+      <Box onClick={onClose} w="66%" h="100%"></Box>
       <Flex
         flexDir="column"
         justifyContent="space-between"
@@ -36,6 +52,7 @@ export const Cart: React.FC<CartProps> = ({ visible }) => {
             justifyContent="space-between"
             alignItems="center"
             w="100%"
+            pb="3rem"
           >
             <Icon
               as={MdKeyboardArrowRight}
@@ -54,6 +71,16 @@ export const Cart: React.FC<CartProps> = ({ visible }) => {
               }
             </Select>
           </Flex>
+          <Stack>
+            {cartItems?.items.map((item) => (
+              <CartItem
+                key={item.id}
+                item={item}
+                products={productsData?.products}
+                currency={currencyData?.SavedCurrency}
+              />
+            ))}
+          </Stack>
         </Box>
       </Flex>
     </Flex>
