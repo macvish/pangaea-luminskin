@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   Box,
   Button,
@@ -7,16 +7,15 @@ import {
   Icon,
   Image,
   Input,
-  Select,
-  Stack,
   Text,
   useNumberInput
 } from '@chakra-ui/react'
 import { MdClose } from 'react-icons/md'
-import { useMutation, useQuery } from 'react-apollo'
+import { useMutation } from 'react-apollo'
 
 import { CartItemData, SingleProductData } from '../../../../../models'
-import { ADD_ITEM_TO_CART, REMOVE_ITEM_FROM_CART } from '../../../../../store/actions'
+import { ADD_ITEM_TO_CART, REMOVE_ITEM_FROM_CART, REMOVE_ITEM_FROM_ITEM_COUNT } from '../../../../../store/actions'
+import { useEffect } from 'react'
 
 interface CartItemProps {
   item: CartItemData
@@ -25,25 +24,46 @@ interface CartItemProps {
 }
 
 export const CartItem: React.FC<CartItemProps> = ({ currency, item, products }) => {
+  const [itemCount, setItemCount] = useState<number>(item.itemCount)
   const [addToCart] = useMutation(ADD_ITEM_TO_CART, { variables: { id: item.id, products } })
+  const [removeFromCart] = useMutation(REMOVE_ITEM_FROM_CART, { variables: { id: item.id } })
+  const [removeFromItemCount] = useMutation(REMOVE_ITEM_FROM_ITEM_COUNT, { variables: { id: item.id, products } })
   const {
+    valueAsNumber,
     getInputProps,
     getIncrementButtonProps,
     getDecrementButtonProps,
   } = useNumberInput({
     step: 1,
-    defaultValue: 1,
+    defaultValue: item.itemCount,
     min: 1,
     max: 50,
   })
 
-  const inc = getIncrementButtonProps({ onClick: () => console.log('clicked') })
-  const dec = getDecrementButtonProps({ onClick: () => console.log('Clicked') })
+  const inc = getIncrementButtonProps()
+  const dec = getDecrementButtonProps()
   const input = getInputProps()
+  
+  useEffect(() => {
+    if (valueAsNumber > itemCount) {
+      addToCart()
+      setItemCount(valueAsNumber)
+    } else if (valueAsNumber < itemCount) {
+      removeFromItemCount()
+      setItemCount(valueAsNumber)
+    }
+
+  }, [valueAsNumber, itemCount, addToCart, removeFromItemCount])
 
   return (
     <Box key={item.id} bgColor="white" w="100%" p={3} mb={2}>
-      <Icon as={MdClose} position="absolute" right={10} onClick={() => console.log('Clicked')} />
+      <Icon
+        as={MdClose}
+        position="absolute"
+        cursor="pointer"
+        right={10}
+        onClick={() => removeFromCart()}
+      />
       <Flex justifyContent="space-between">
         <Box>
           <Text fontSize="17px" mb="3px">{item.title}</Text>
@@ -56,6 +76,8 @@ export const CartItem: React.FC<CartItemProps> = ({ currency, item, products }) 
                 bgColor="transparent"
                 minW={5}
                 fontSize="17px"
+                _hover={{ bgColor: "tranparent" }}
+                cursor="pointer"
               >-</Button>
               <Input
                 {...input}
@@ -69,6 +91,8 @@ export const CartItem: React.FC<CartItemProps> = ({ currency, item, products }) 
                 bgColor="transparent"
                 minW={5}
                 fontSize="17px"
+                _hover={{ bgColor: "tranparent" }}
+                cursor="pointer"
               >+</Button>
             </HStack>
             <Text fontSize="2xl">{`${currency} ${item.price}`}</Text>

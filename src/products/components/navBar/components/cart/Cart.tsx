@@ -1,12 +1,8 @@
 import React from 'react'
 import {
   Box,
-  Button,
   Flex,
-  HStack,
   Icon,
-  Image,
-  Input,
   Select,
   Stack,
   Text,
@@ -62,6 +58,7 @@ export const Cart: React.FC<CartProps> = ({ cartItems, onClose }) => {
               borderColor="rgba(198, 204, 199)"
               borderWidth="1px"
               borderRadius={15}
+              onClick={onClose}
             />
             <Select value={currencyData?.SavedCurrency} variant="unstyled" w="19%">
               {
