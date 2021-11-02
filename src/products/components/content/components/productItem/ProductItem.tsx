@@ -2,11 +2,12 @@ import React from 'react'
 import { Button, Flex, Image, Text } from '@chakra-ui/react'
 import { useMutation, useQuery } from 'react-apollo'
 
-import { ADD_ITEM_TO_CART, GET_CURRENCY } from '../../../../../store/actions'
-import { SingleProductData } from '../../../../../models'
+import { ADD_ITEM_TO_CART, GET_CURRENCY, GET_PRODUCTS } from '../../../../../store/actions'
+import { ProductsData, SingleProductData } from '../../../../../models'
 
 interface ProductItemProps {
   item: SingleProductData
+  products: SingleProductData[]
 }
 
 export const ProductItem: React.FC<ProductItemProps> = ({
@@ -16,9 +17,10 @@ export const ProductItem: React.FC<ProductItemProps> = ({
     price,
     title,
   },
+  products
 }) => {
-  const [addToCart] = useMutation(ADD_ITEM_TO_CART, { variables: { id: id } })
   const { data } = useQuery<{ currency: string }>(GET_CURRENCY)
+  const [addToCart] = useMutation(ADD_ITEM_TO_CART, { variables: { id, products } })
 
   return (
     <Flex

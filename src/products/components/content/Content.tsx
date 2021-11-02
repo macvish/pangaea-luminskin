@@ -1,17 +1,14 @@
 import React, { Fragment } from 'react'
-import { Button, Flex, Image, SimpleGrid, Text } from '@chakra-ui/react'
-import { useQuery, useMutation } from 'react-apollo'
+import { SimpleGrid } from '@chakra-ui/react'
+import { useQuery } from 'react-apollo'
 
-import { ADD_ITEM_TO_CART, GET_PRODUCTS } from '../../../store/actions'
-import { SingleProductData } from '../../../models'
+import { GET_CURRENCY, GET_PRODUCTS } from '../../../store/actions'
+import { ProductsData, SingleProductData } from '../../../models'
 import { ProductItem } from './components'
 
-interface ProductsData {
-  products: SingleProductData[]
-}
-
 export const Content: React.FC = () => {
-  const { loading, data } = useQuery<ProductsData>(GET_PRODUCTS, { variables: { currency: "USD" } })
+  const { data: currencyData } = useQuery<{ currency: string }>(GET_CURRENCY)
+  const { loading, data } = useQuery<ProductsData>(GET_PRODUCTS, { variables: { currency: currencyData?.currency } })
   
   return (
     <SimpleGrid
@@ -25,7 +22,7 @@ export const Content: React.FC = () => {
         loading
           ? null
           : data?.products.map((item: SingleProductData) => <Fragment key={item.id}>
-            <ProductItem item={item} />
+            <ProductItem item={item} products={data?.products} />
           </Fragment>)
       }
     </SimpleGrid>

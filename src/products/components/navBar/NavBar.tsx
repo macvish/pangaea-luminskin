@@ -14,9 +14,17 @@ interface NavBarCartData {
 
 export const NavBar: React.FC = () => {
   const [isAbove768] = useMediaQuery('(min-width: 768px)')
-  const { loading, data } = useQuery<NavBarCartData>(GET_CART_ITEMS)
-  
-  console.log(loading, data)
+  const { data } = useQuery<NavBarCartData>(GET_CART_ITEMS)
+
+  const calculateItems = () => {
+    let i = 0
+
+    data?.cart?.items.forEach((item) => {
+      i = i + item.itemCount
+    })
+
+    return i
+  }
 
   const displayMenu = () => {
     if (isAbove768) {
@@ -71,7 +79,7 @@ export const NavBar: React.FC = () => {
         <Text>Account</Text>
         <div>
           <Icon as={GrCart} w={5} h={5} />
-          <Text as="sup">{data?.cart?.items.length}</Text>
+          <Text as="sup">{calculateItems()}</Text>
         </div>
       </Flex>
     </Flex>

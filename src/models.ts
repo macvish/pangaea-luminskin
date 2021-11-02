@@ -5,12 +5,16 @@ export interface SingleProductData {
   price: number
 }
 
+export interface ProductsData {
+  products: SingleProductData[]
+}
+
 export interface CartItemData extends SingleProductData {
   itemCount: number
-  __typename: string
 }
 
 export interface CartData {
   items: CartItemData[]
   total: number
+  __typename?: string
 }
