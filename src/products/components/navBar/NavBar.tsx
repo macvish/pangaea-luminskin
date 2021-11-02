@@ -2,9 +2,29 @@ import React from 'react'
 import { Flex, Heading, Icon, Text, useMediaQuery } from '@chakra-ui/react'
 import { GrCart } from 'react-icons/gr'
 import { AiOutlineMenu } from 'react-icons/ai'
+import { useQuery } from 'react-apollo'
+
+import { GET_CART_ITEMS } from '../../../store/actions'
+import { CartData } from '../../../models'
+
+interface NavBarCartData {
+  cart: CartData
+  currency: string
+}
 
 export const NavBar: React.FC = () => {
   const [isAbove768] = useMediaQuery('(min-width: 768px)')
+  const { data } = useQuery<NavBarCartData>(GET_CART_ITEMS)
+
+  const calculateItems = () => {
+    let i = 0
+
+    data?.cart?.items.forEach((item) => {
+      i = i + item.itemCount
+    })
+
+    return i
+  }
 
   const displayMenu = () => {
     if (isAbove768) {
@@ -45,6 +65,7 @@ export const NavBar: React.FC = () => {
       pr={10}
       as="nav"
       position="fixed"
+      zIndex={99}
       w="100%"
       boxShadow="base"
       bgColor="#F5F5F4"
@@ -58,7 +79,7 @@ export const NavBar: React.FC = () => {
         <Text>Account</Text>
         <div>
           <Icon as={GrCart} w={5} h={5} />
-          <Text as="sup">4</Text>
+          <Text as="sup">{calculateItems()}</Text>
         </div>
       </Flex>
     </Flex>

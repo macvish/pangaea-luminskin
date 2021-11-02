@@ -13,9 +13,9 @@ export const Header: React.FC = () => {
 
   return (
     <Box
-      p={62}
-      pl={isAbove768 ? 28 : 12}
-      pr={isAbove768 ? 28 : 12}
+      pt={61}
+      pb={0}
+      px={isAbove768 ? 28 : 12}
     >
       <Flex
         flexDir={isAbove768 ? 'row' : 'column'}
