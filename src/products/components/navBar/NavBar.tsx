@@ -6,6 +6,7 @@ import { useQuery } from 'react-apollo'
 
 import { GET_CART_ITEMS } from '../../../store/actions'
 import { CartData } from '../../../models'
+import { Cart } from './components'
 
 interface NavBarCartData {
   cart: CartData
@@ -56,32 +57,35 @@ export const NavBar: React.FC = () => {
   }
 
   return (
-    <Flex
-      justifyContent="space-between"
-      alignItems="center"
-      top={0}
-      p={5}
-      pl={10}
-      pr={10}
-      as="nav"
-      position="fixed"
-      zIndex={99}
-      w="100%"
-      boxShadow="base"
-      bgColor="#F5F5F4"
-    >
-      {displayMenu()}
+    <>
       <Flex
         justifyContent="space-between"
-        w="24"
         alignItems="center"
+        top={0}
+        p={5}
+        pl={10}
+        pr={10}
+        as="nav"
+        position="fixed"
+        zIndex={99}
+        w="100%"
+        boxShadow="base"
+        bgColor="#F5F5F4"
       >
-        <Text>Account</Text>
-        <div>
-          <Icon as={GrCart} w={5} h={5} />
-          <Text as="sup">{calculateItems()}</Text>
-        </div>
+        {displayMenu()}
+        <Flex
+          justifyContent="space-between"
+          w="24"
+          alignItems="center"
+        >
+          <Text>Account</Text>
+          <div>
+            <Icon as={GrCart} w={5} h={5} />
+            <Text as="sup">{calculateItems()}</Text>
+          </div>
+        </Flex>
       </Flex>
-    </Flex>
+      <Cart />
+    </>
   )
 }

@@ -16,8 +16,12 @@ export const resolvers = {
         const searchCartItem = cart?.items.find((item: CartItemData) => item.id === id)
         console.log(searchCartItem)
         
-        if (searchCartItem) {
-          const newCart = cart?.items.map((item: CartItemData) => item.id === searchCartItem.id ? { ...item, itemCount: item.itemCount + 1 } : item)
+        if (searchCartItem && newItem) {
+          const newCart = cart?.items.map((item: CartItemData) => item.id === searchCartItem.id ? {
+            ...item,
+            itemCount: item.itemCount + 1,
+            price: item.price + newItem.price
+          } : item)
           
           cache.writeData({
             data: {

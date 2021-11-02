@@ -2,8 +2,8 @@ import React from 'react'
 import { Button, Flex, Image, Text } from '@chakra-ui/react'
 import { useMutation, useQuery } from 'react-apollo'
 
-import { ADD_ITEM_TO_CART, GET_CURRENCY, GET_PRODUCTS } from '../../../../../store/actions'
-import { ProductsData, SingleProductData } from '../../../../../models'
+import { ADD_ITEM_TO_CART, GET_CURRENCY } from '../../../../../store/actions'
+import { SingleProductData } from '../../../../../models'
 
 interface ProductItemProps {
   item: SingleProductData
@@ -19,7 +19,7 @@ export const ProductItem: React.FC<ProductItemProps> = ({
   },
   products
 }) => {
-  const { data } = useQuery<{ currency: string }>(GET_CURRENCY)
+  const { data } = useQuery<{ SavedCurrency: string }>(GET_CURRENCY)
   const [addToCart] = useMutation(ADD_ITEM_TO_CART, { variables: { id, products } })
 
   return (
@@ -47,7 +47,7 @@ export const ProductItem: React.FC<ProductItemProps> = ({
         alignItems="center"
       >
         <Text textAlign="center" my="1rem" fontSize="larger">{title}</Text>
-        <Text mb="0.5rem" fontSize="larger" textAlign="center">{`${data?.currency} ${price}`}</Text>
+        <Text mb="0.5rem" fontSize="larger" textAlign="center">{`${data?.SavedCurrency} ${price}`}</Text>
         <Button
           color="white"
           bgColor="#4B5548"

@@ -7,8 +7,8 @@ import { ProductsData, SingleProductData } from '../../../models'
 import { ProductItem } from './components'
 
 export const Content: React.FC = () => {
-  const { data: currencyData } = useQuery<{ currency: string }>(GET_CURRENCY)
-  const { loading, data } = useQuery<ProductsData>(GET_PRODUCTS, { variables: { currency: currencyData?.currency } })
+  const { data: currencyData } = useQuery<{ SavedCurrency: string }>(GET_CURRENCY)
+  const { loading, data } = useQuery<ProductsData>(GET_PRODUCTS, { variables: { currency: currencyData?.SavedCurrency } })
   
   return (
     <SimpleGrid
