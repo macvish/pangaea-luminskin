@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Box } from '@chakra-ui/react'
+import { Box, Flex } from '@chakra-ui/react'
 import { useQuery } from 'react-apollo'
 
 import { Content, Header, NavBar } from './components'
@@ -14,10 +14,11 @@ export const Products: React.FC = () => {
   return (
     <>
       <NavBar />
-      <Box as="main" bgColor="#F5F5F4" minH="100vh">
+      <Flex as="main" flexDir="column" bgColor="#F5F5F4" minH="100vh">
         <Header />
         <Content />
-      </Box>
+        <Box w="100%" h="4rem" bgColor="#4B5548"></Box>
+      </Flex>
     </>
   )
 }
