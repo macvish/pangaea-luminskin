@@ -10,6 +10,10 @@ interface RemoveFromCartProps {
   id: number
 }
 
+interface ChangeCurrencyProps {
+  currency: string
+}
+
 export const resolvers = {
   Mutation: {
     addToCart: (_: any, { id, products }: AddToCartProps, { cache }: any) => {
@@ -93,6 +97,13 @@ export const resolvers = {
           }
         })
       }
+    },
+    changeCurrency: (_: any, { currency }: ChangeCurrencyProps, { cache }: any) => {
+      cache.writeData({
+        data: {
+          savedCurrency: currency
+        }
+      })
     }
   }
 }

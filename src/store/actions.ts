@@ -39,6 +39,10 @@ export const REMOVE_ITEM_FROM_ITEM_COUNT = gql`mutation ($id: String!, $products
   removeFromItemCount(id: $id, products: $products) @client
 }`
 
+export const CHANGE_CURRENCY = gql`mutation ($currency: Currency!) {
+  changeCurrency(currency: $currency) @client
+}`
+
 export const GET_CURRENCY = gql`query {
   SavedCurrency @client
 }`

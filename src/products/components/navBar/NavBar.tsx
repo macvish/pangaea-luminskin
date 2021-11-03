@@ -86,11 +86,11 @@ export const NavBar: React.FC = () => {
           </div>
         </Flex>
       </Flex>
-      {
-        isVisible
-          ? <Cart cartItems={data?.cart} onClose={() => setIsVisible(false)} />
-          : null
-      }
+      <Cart
+        isVisible={isVisible}
+        cartItems={data?.cart}
+        onClose={() => setIsVisible(false)}
+      />
     </>
   )
 }

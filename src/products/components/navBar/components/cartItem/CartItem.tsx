@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   Box,
   Button,
@@ -15,7 +15,6 @@ import { useMutation } from 'react-apollo'
 
 import { CartItemData, SingleProductData } from '../../../../../models'
 import { ADD_ITEM_TO_CART, REMOVE_ITEM_FROM_CART, REMOVE_ITEM_FROM_ITEM_COUNT } from '../../../../../store/actions'
-import { useEffect } from 'react'
 
 interface CartItemProps {
   item: CartItemData

@@ -38,20 +38,20 @@ export const ProductItem: React.FC<ProductItemProps> = ({
         <Image
           src={image_url}
           objectFit="contain"
-          w={"100%"}
-          h={"170px"}
+          w={["60%", "60%", "100%"]}
+          h={[ "130px", "130px", "170px"]}
         />
       </Flex>
       <Flex
         flexDir="column"
         alignItems="center"
       >
-        <Text textAlign="center" my="1rem" fontSize="larger">{title}</Text>
-        <Text mb="0.5rem" fontSize="larger" textAlign="center">{`${data?.SavedCurrency} ${price}`}</Text>
+        <Text textAlign="center" my={["0", "0", "1rem"]} fontSize={["15px", "15px", "larger"]}>{title}</Text>
+        <Text mb="0.5rem" fontSize={["medium", "larger"]} textAlign="center">{`${data?.SavedCurrency} ${price}`}</Text>
         <Button
           color="white"
           bgColor="#4B5548"
-          width={"14rem"}
+          width={["12rem", "12rem", "14rem"]}
           py="28px"
           borderRadius={0}
           _hover={{ bgColor: "#2B2E2B" }}
