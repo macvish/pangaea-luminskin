@@ -47,21 +47,20 @@ export const Cart: React.FC<CartProps> = ({ cartItems, isVisible, onClose }) => 
       motionPreset="slideInRight"
       scrollBehavior="inside"
     >
-      <ModalContent w="100rem" bgColor="transparent">
+      <ModalContent w="100%" minH="100vh" bgColor="transparent">
         <Flex
           minH="100vh"
           w="100%"
           bgColor="rgba(205, 209, 206, 0.8)"
-        
         >
-          <Box onClick={onClose} w={[0, 0, "66%"]} h="100%"></Box>
+          <Box onClick={onClose} w={[0, 0, "66%"]} minH="100vh"></Box>
           <Flex
             flexDir="column"
             justifyContent="space-between"
             alignItems="center"
             bgColor="#F2F2EF"
             w={["100%", "100%", "34%"]}
-            h="100%"
+            h="100vh"
             p="2rem"
           
           >
@@ -97,7 +96,7 @@ export const Cart: React.FC<CartProps> = ({ cartItems, isVisible, onClose }) => 
                   }
                 </Select>
               </Flex>
-              <Stack shouldWrapChildren wrap="wrap">
+              <Stack maxH="60vh" overflowY="auto">
                 {cartItems?.items.map((item) => (
                   <CartItem
                     key={item.id}

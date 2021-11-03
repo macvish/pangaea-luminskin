@@ -56,13 +56,6 @@ export const CartItem: React.FC<CartItemProps> = ({ currency, item, products }) 
 
   return (
     <Box key={item.id} bgColor="white" w="100%" p={3} mb={2}>
-      <Icon
-        as={MdClose}
-        position="absolute"
-        cursor="pointer"
-        right={10}
-        onClick={() => removeFromCart()}
-      />
       <Flex justifyContent="space-between">
         <Box>
           <Text fontSize="17px" mb="3px">{item.title}</Text>
@@ -97,8 +90,15 @@ export const CartItem: React.FC<CartItemProps> = ({ currency, item, products }) 
             <Text fontSize="2xl">{`${currency} ${item.price}`}</Text>
           </Flex>
         </Box>
-        <Flex justifyContent="center" alignItems="center" w="7rem">
-          <Image src={item.image_url} w={10} h={10}/>
+        <Flex flexDir="column" alignItems="center" w="7rem">
+          <Icon
+            as={MdClose}
+            alignSelf="flex-end"
+            cursor="pointer"
+            right={10}
+            onClick={() => removeFromCart()}
+          />
+          <Image src={item.image_url} w={10} h={10} mt="2rem"/>
         </Flex>
       </Flex>
     </Box>
