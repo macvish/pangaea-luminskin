@@ -1,23 +1,34 @@
 import { CartItemData } from "../models"
 import { GET_CART_ITEMS } from "./actions"
 
-interface ArgumentProps {
+interface AddToCartProps {
   id: number
   products: CartItemData[]
 }
 
+interface RemoveFromCartProps {
+  id: number
+}
+
+interface ChangeCurrencyProps {
+  currency: string
+}
+
 export const resolvers = {
   Mutation: {
-    addToCart: (_: any, { id, products }: ArgumentProps, { cache }: any) => {
+    addToCart: (_: any, { id, products }: AddToCartProps, { cache }: any) => {
       const { cart } = cache.readQuery({ query: GET_CART_ITEMS })
       const newItem = products?.find((item: CartItemData) => item.id === id)
       
       if (cart?.items?.length > 0) {
         const searchCartItem = cart?.items.find((item: CartItemData) => item.id === id)
-        console.log(searchCartItem)
         
-        if (searchCartItem) {
-          const newCart = cart?.items.map((item: CartItemData) => item.id === searchCartItem.id ? { ...item, itemCount: item.itemCount + 1 } : item)
+        if (searchCartItem && newItem) {
+          const newCart = cart?.items.map((item: CartItemData) => item.id === searchCartItem.id ? {
+            ...item,
+            itemCount: item.itemCount + 1,
+            price: item.price + newItem.price
+          } : item)
           
           cache.writeData({
             data: {
@@ -43,8 +54,56 @@ export const resolvers = {
             }
           }
         })
-        console.log(cart.items)
       }
+    },
+    removeFromCart: (_: any, { id }: RemoveFromCartProps, { cache }: any) => {
+      const { cart } = cache.readQuery({ query: GET_CART_ITEMS })
+      
+      if (cart?.items) {
+        const item = cart?.items.find((item: CartItemData) => item.id === id)
+        const newCart = cart.items.filter((item: CartItemData) => item.id !== id)
+        
+        cache.writeData({
+          data: {
+            cart: {
+              items: newCart,
+              total: cart.total - item.price,
+              __typename: 'Cart'
+            }
+          }
+        })
+      }
+    },
+    removeFromItemCount: (_: any, { id, products }: AddToCartProps, { cache }: any) => {
+      const { cart } = cache.readQuery({ query: GET_CART_ITEMS })
+      const newItem = products?.find((item: CartItemData) => item.id === id)
+
+      if (newItem) {
+        const newCart = cart?.items.map((item: CartItemData) => item.id === id ? {
+          ...item,
+          itemCount: item.itemCount - 1,
+          price: item.price - newItem.price
+        } : item)
+
+        console.log(newCart)
+        
+        cache.writeData({
+          data: {
+            cart: {
+              items: newCart,
+              total: cart.total - newItem.price,
+              __typename: 'Cart'
+            }
+          }
+        })
+      }
+    },
+    changeCurrency: (_: any, { currency }: ChangeCurrencyProps, { cache }: any) => {
+      cache.writeData({
+        data: {
+          savedCurrency: currency
+        }
+      })
     }
   }
 }

@@ -19,7 +19,7 @@ const client = new ApolloClient({
         total: 0,
         __typename: 'Cart'
       },
-      currency: 'USD'
+      SavedCurrency: 'USD'
     },
     resolvers
   }

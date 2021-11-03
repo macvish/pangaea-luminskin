@@ -9,6 +9,10 @@ export const GET_PRODUCTS = gql`query ($currency: Currency!){
   }
 }`
 
+export const GET_CURRENCY_LIST = gql`query {
+  currency
+}`
+
 export const GET_CART_ITEMS = gql`query {
   cart @client {
     items {
@@ -20,13 +24,25 @@ export const GET_CART_ITEMS = gql`query {
     }
     total
   }
-  currency @client
+  SavedCurrency @client
 }`
 
 export const ADD_ITEM_TO_CART = gql`mutation ($id: String!, $products: Array!) {
   addToCart(id: $id, products: $products) @client
 }`
 
+export const REMOVE_ITEM_FROM_CART = gql`mutation ($id: String!) {
+  removeFromCart(id: $id) @client
+}`
+
+export const REMOVE_ITEM_FROM_ITEM_COUNT = gql`mutation ($id: String!, $products: Array!) {
+  removeFromItemCount(id: $id, products: $products) @client
+}`
+
+export const CHANGE_CURRENCY = gql`mutation ($currency: Currency!) {
+  changeCurrency(currency: $currency) @client
+}`
+
 export const GET_CURRENCY = gql`query {
-  currency @client
+  SavedCurrency @client
 }`
