@@ -17,6 +17,7 @@ export const Content: React.FC = () => {
       spacing={["20px", "20px", "24px"]}
       py={[10, 10, 10]}
       px={[5, 5, 20]}
+      flex="1"
     >
       {
         loading
